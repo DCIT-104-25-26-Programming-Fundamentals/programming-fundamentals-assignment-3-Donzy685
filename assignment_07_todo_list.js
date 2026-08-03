@@ -81,4 +81,76 @@
 // YOUR CODE BELOW — remove the // symbols from the scaffold and fill it in
 // =============================================================================
 
+const readlineSync = require('readline-sync');
 
+function addTask(tasks) {
+    const description = readlineSync.question("Enter task: ");
+    tasks.push(description);
+    console.log(`Task added: "${description}"`);
+}
+
+function viewTasks(tasks) {
+    if (tasks.length === 0) {
+        console.log("You have no tasks yet. Add one to get started!");
+        return;
+    }
+
+    console.log("Your Tasks:");
+    for (let i = 0; i < tasks.length; i++) {
+        console.log(`${i + 1}. ${tasks[i]}`);
+    }
+}
+
+function deleteTask(tasks) {
+    if (tasks.length === 0) {
+        console.log("You have no tasks yet. Add one to get started!");
+        return;
+    }
+
+    viewTasks(tasks);
+    const index = readlineSync.questionInt("Enter task number to delete: ");
+
+    if (index < 1 || index > tasks.length) {
+        console.log("Error: That task number does not exist.");
+        return;
+    }
+
+    const removed = tasks.splice(index - 1, 1)[0];
+    console.log(`Task "${removed}" has been removed.`);
+}
+
+function printMenu() {
+    console.log("============================");
+    console.log("     TO-DO LIST MENU");
+    console.log("============================");
+    console.log("1. Add task");
+    console.log("2. View tasks");
+    console.log("3. Delete task");
+    console.log("4. Quit");
+}
+
+function main() {
+    const tasks = [];
+
+    while (true) {
+        printMenu();
+        const choice = readlineSync.question("Enter your choice (1-4): ");
+
+        if (choice === "1") {
+            addTask(tasks);
+        } else if (choice === "2") {
+            viewTasks(tasks);
+        } else if (choice === "3") {
+            deleteTask(tasks);
+        } else if (choice === "4") {
+            console.log("Goodbye!");
+            break;
+        } else {
+            console.log("Error: Invalid choice. Please enter a number from 1 to 4.");
+        }
+
+        console.log("");
+    }
+}
+
+main();
