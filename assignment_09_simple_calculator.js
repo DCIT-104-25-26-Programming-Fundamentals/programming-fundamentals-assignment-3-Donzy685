@@ -74,4 +74,89 @@
 // YOUR CODE BELOW — remove the // symbols from the scaffold and fill it in
 // =============================================================================
 
+const readlineSync = require('readline-sync');
 
+function add(a, b) {
+    return a + b;
+}
+
+function subtract(a, b) {
+    return a - b;
+}
+
+function multiply(a, b) {
+    return a * b;
+}
+
+function divide(a, b) {
+    if (b === 0) {
+        return null;
+    }
+    return a / b;
+}
+
+function modulus(a, b) {
+    if (b === 0) {
+        return null;
+    }
+    return a % b;
+}
+
+function exponentiate(a, b) {
+    return a ** b;
+}
+
+function printMenu() {
+    console.log("============================");
+    console.log("     SIMPLE CALCULATOR");
+    console.log("============================");
+    console.log("1. Addition");
+    console.log("2. Subtraction");
+    console.log("3. Multiplication");
+    console.log("4. Division");
+    console.log("5. Modulus");
+    console.log("6. Exponentiation");
+    console.log("7. Quit");
+}
+
+function main() {
+    const operations = {
+        "1": { symbol: "+", func: add },
+        "2": { symbol: "-", func: subtract },
+        "3": { symbol: "*", func: multiply },
+        "4": { symbol: "/", func: divide },
+        "5": { symbol: "%", func: modulus },
+        "6": { symbol: "**", func: exponentiate },
+    };
+
+    while (true) {
+        printMenu();
+        const choice = readlineSync.question("Select an operation (1-7): ");
+
+        if (choice === "7") {
+            console.log("Goodbye!");
+            break;
+        }
+
+        if (!(choice in operations)) {
+            console.log("Error: Invalid choice. Please enter a number from 1 to 7.");
+            console.log("");
+            continue;
+        }
+
+        const { symbol, func } = operations[choice];
+        const a = readlineSync.questionFloat("Enter first number : ");
+        const b = readlineSync.questionFloat("Enter second number: ");
+
+        if ((choice === "4" || choice === "5") && b === 0) {
+            console.log("Error: Cannot divide by zero.");
+        } else {
+            const result = func(a, b);
+            console.log(`Result: ${a} ${symbol} ${b} = ${result.toFixed(2)}`);
+        }
+
+        console.log("");
+    }
+}
+
+main();
